@@ -12,7 +12,7 @@ export default {
     async createUser() {
       try {
         const response = await axios.post('/users');
-        
+
         this.user = response.data.data?.user || {};
       } catch (error) {
         console.error(error.message);
@@ -46,7 +46,10 @@ export default {
             <div class="card-body text-center">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                 class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">{{ user.name || 'N/A' }}</h5>
+              <h5 class="my-3">
+                <span v-if="user.name">{{ user.name }}</span>
+                <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              </h5>
             </div>
           </div>
         </div>
@@ -58,7 +61,10 @@ export default {
                   <p class="mb-0">Full Name</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ user.name || 'N/A' }}</p>
+                  <p class="text-muted mb-0">
+                    <span v-if="user.name">{{ user.name }}</span>
+                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  </p>
                 </div>
               </div>
               <hr>
@@ -67,7 +73,10 @@ export default {
                   <p class="mb-0">Email</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ user.email || 'N/A' }}</p>
+                  <p class="text-muted mb-0">
+                    <span v-if="user.email">{{ user.email }}</span>
+                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  </p>
                 </div>
               </div>
               <hr>
@@ -76,7 +85,10 @@ export default {
                   <p class="mb-0">Phone</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ user.phone_number || 'N/A' }}</p>
+                  <p class="text-muted mb-0">
+                    <span v-if="user.phone_number">{{ user.phone_number }}</span>
+                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  </p>
                 </div>
               </div>
               <hr>
@@ -85,16 +97,23 @@ export default {
                   <p class="mb-0">Address</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ user.address || 'N/A' }}</p>
+                  <p class="text-muted mb-0">
+                    <span v-if="user.address">{{ user.address }}</span>
+                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  </p>
                 </div>
               </div>
-              <hr/>
+              <hr />
               <div class="row">
                 <div class="col-sm-3">
                   <p class="mb-0">Joined On</p>
                 </div>
                 <div class="col-sm-9">
-                  <p class="text-muted mb-0">{{ user.created_at ? (new Date(user.created_at)).toDateString() : 'N/A' }}</p>
+                  <p class="text-muted mb-0">
+                    <span v-if="user.created_at">{{ (new Date(user.created_at)).toDateString() }}</span>
+                    <span v-else class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  </p>
+
                 </div>
               </div>
             </div>
