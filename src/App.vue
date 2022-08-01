@@ -1,26 +1,42 @@
 <script>
-import axios from 'axios';
-
-axios.defaults.baseURL = 'https://25ac-119-153-144-209.ap.ngrok.io/api/v1'
+import axios from './services/axios';
 export default {
   data() {
     return {
-      user: {}
+      user: {},
     }
   },
   methods: {
     async createUser() {
-      try {
-        const response = await axios.post('/users');
+      const response = await axios.post('/users');
 
-        this.user = response.data.data?.user || {};
+      if(!response.data.success) {
+        throw new Error('User could not be created');
+      }
+
+      console.log(response.data);
+      
+      this.fetchUser(response.data.data.user.id);
+    },
+    async fetchUser(userId) {
+      try {
+        const response = await axios.get(`/users/${userId}`);
+
+      this.user = response.data.data?.user;
       } catch (error) {
         console.error(error.message);
+      }
+    },
+    async getUser() {
+      try {
+        await this.createUser();
+      } catch (error) {
+        this.createUser();
       }
     }
   },
   created() {
-    this.createUser();
+    this.getUser();
   }
 }
 </script>
